@@ -1,4 +1,4 @@
-::logInfo("[OpArchers] Injecting runtime gameplay hook logic execution...");
+::OpArchers.Mod.Debug.printLog("[OpArchers] Injecting runtime gameplay hook logic execution...");
 
 local mod = ::OpArchers.HookMod;
 
@@ -23,6 +23,7 @@ foreach (skillPath in rangedSkills)
                 local minSkill = ::OpArchers.Mod.ModSettings.getSetting("MinSkillForGuaranteeHit").getValue();
                 if (actor.getCurrentProperties().RangedSkill >= minSkill)
                 {
+                    ::OpArchers.Mod.Debug.printLog("[OpArchers] Using guaranteed hit for player with RangedSkill: " + actor.getCurrentProperties().RangedSkill);
                     return false;
                 }
             }
@@ -37,6 +38,7 @@ foreach (skillPath in rangedSkills)
                 local minSkill = ::OpArchers.Mod.ModSettings.getSetting("MinSkillForGuaranteeHit").getValue();
                 if (_user.getCurrentProperties().RangedSkill >= minSkill)
                 {
+                    ::OpArchers.Mod.Debug.printLog("[OpArchers] Bypassing projectile scatter for player with RangedSkill: " + _user.getCurrentProperties().RangedSkill);
                     local backupIsRanged = this.m.IsRanged;
                     this.m.IsRanged = false;
 
@@ -73,10 +75,12 @@ foreach (skillPath in rangedSkills)
 
                     if (rSkill >= t1Min && rSkill <= t1Max)
                     {
+                        ::OpArchers.Mod.Debug.printLog("[OpArchers] Applying Tier 1 damage multiplier for player with RangedSkill: " + rSkill);
                         _properties.RangedDamageMult *= t1Mult;
                     }
                     else if (rSkill >= t2Min && rSkill <= t2Max)
                     {
+                        ::OpArchers.Mod.Debug.printLog("[OpArchers] Applying Tier 2 damage multiplier for player with RangedSkill: " + rSkill);
                         _properties.RangedDamageMult *= t2Mult;
                     }
                 }
@@ -85,4 +89,4 @@ foreach (skillPath in rangedSkills)
     });
 }
 
-::logInfo("[OpArchers] All gameplay hooks successfully registered.");
+::OpArchers.Mod.Debug.printLog("[OpArchers] All gameplay hooks successfully registered.");
