@@ -12,6 +12,11 @@ copy the .zip file you've downloaded to `Battle Brothers\data`
 # Requirements
 Modern Hooks (MSU)
 
+# Known issue
+ - Missed archer shots at 1 tile can fail to show an arrow projectile.
+   Vanilla uses `SpawnProjectileMinDist = 2` (`data_001/scripts/config/character.nut`), so projectiles only render at distance 2+.
+   This behavior is independent from the guaranteed-hit feature introduced by this mod.
+
 # Special Thanks to 
  - enduriel
  - reforged
