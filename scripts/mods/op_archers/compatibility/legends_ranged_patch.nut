@@ -64,6 +64,17 @@ if (!("Compatibility" in ::OpArchers))
         ::OpArchers.Mod.Debug.printLog("[OpArchers][Legends][" + _event + "] " + _skill.getID() + " " + _message);
     }
 
+    function describeTarget(_targetEntity)
+    {
+        if (_targetEntity == null)
+        {
+            return "target <none>";
+        }
+
+        local tile = _targetEntity.getTile();
+        return "target \"" + _targetEntity.getName() + "\" id " + _targetEntity.getID() + " tile " + tile.X + "," + tile.Y;
+    }
+
     function applyDamageMultiplier(_skill, _properties)
     {
         local actor = this.getEligibleActor(_skill);
@@ -93,7 +104,7 @@ if (!("Compatibility" in ::OpArchers))
         }
     }
 
-    function registerSkillTrace(_mod, _skillPath)
+    function registerCombatHook(_mod, _skillPath)
     {
         _mod.hook(_skillPath, function(q)
         {
@@ -107,13 +118,7 @@ if (!("Compatibility" in ::OpArchers))
 
                 return __original(_user, _targetTile);
             };
-        });
-    }
 
-    function registerHooks(_mod)
-    {
-        _mod.hook("scripts/skills/skill", function(q)
-        {
             q.isUsingHitchance = @(__original) function()
             {
                 local policy = ::OpArchers.Compatibility.Legends.getPolicy(this);
@@ -143,6 +148,7 @@ if (!("Compatibility" in ::OpArchers))
                     return __original(_user, _targetEntity, _allowDiversion);
                 }
 
+                ::OpArchers.Compatibility.Legends.logAttack("Selected", this, ::OpArchers.Compatibility.Legends.describeTarget(_targetEntity));
                 local qualifies = ::OpArchers.Compatibility.Legends.meetsGuaranteedHitThreshold(_user);
                 local blockerCount = 0;
                 if (_targetEntity != null && _targetEntity.isAlive() && this.m.IsRanged)
@@ -165,6 +171,19 @@ if (!("Compatibility" in ::OpArchers))
                 return result;
             };
 
+            q.onScheduledTargetHit = @(__original) function(_info)
+            {
+                local result = __original(_info);
+                local policy = ::OpArchers.Compatibility.Legends.getPolicy(this);
+
+                if (policy != null && policy.IsAttack && _info != null && "TargetEntity" in _info)
+                {
+                    ::OpArchers.Compatibility.Legends.logAttack("ResolvedHit", this, "confirmed " + ::OpArchers.Compatibility.Legends.describeTarget(_info.TargetEntity));
+                }
+
+                return result;
+            };
+
             q.onAnySkillUsed = @(__original) function(_skill, _targetEntity, _properties)
             {
                 __original(_skill, _targetEntity, _properties);
@@ -176,13 +195,16 @@ if (!("Compatibility" in ::OpArchers))
                 }
             };
         });
+    }
 
+    function registerHooks(_mod)
+    {
         foreach (id, policy in this.SupportedSkills)
         {
-            this.registerSkillTrace(_mod, policy.Script);
+            this.registerCombatHook(_mod, policy.Script);
             ::OpArchers.Mod.Debug.printLog("[OpArchers][Legends][Register] " + id + " -> " + policy.Script);
         }
 
-        ::OpArchers.Mod.Debug.printLog("[OpArchers][Legends][Register] base skills/skill adapter registered");
+        ::OpArchers.Mod.Debug.printLog("[OpArchers][Legends][Register] explicit active-skill adapters registered");
     }
 };

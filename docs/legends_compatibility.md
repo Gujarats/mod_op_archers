@@ -20,11 +20,11 @@ to these player-controlled ranged attacks:
 `reload_bolt` is deliberately excluded because it does not resolve an attack.
 Legends' crossbow-configured `knock_out` is also excluded: it is the melee
 "Improvised Strike" butt attack, not a projectile attack.
-The adapter hooks Legends' modified `scripts/skills/skill` base class and only
-acts when the current skill ID is in this table. It applies the existing OP
-Archers hit, diversion, and damage behavior to those entries only. Legends owns
-Cascade's multi-shot behavior, Piercing Bolt's follow-through hit, and Strafing
-Run's movement. The vanilla hook module remains unchanged.
+The adapter hooks each listed active script directly and only acts when the
+current skill ID is in this table. It applies the existing OP Archers hit,
+diversion, and damage behavior to those entries only. Legends owns Cascade's
+multi-shot behavior, Piercing Bolt's follow-through hit, and Strafing Run's
+movement. The vanilla hook module remains unchanged.
 
 ## Debug Logging
 
@@ -33,6 +33,13 @@ startup and logs each supported attack's active ID, actor Ranged Skill,
 configured threshold, blocker count, diversion decision, and damage tier.
 Strafing Run logs its delegated Bolt or Stake attack. This logging is diagnostic
 only and does not alter combat behavior.
+
+Each attack additionally emits a `[Selected]` line immediately before resolving
+the attack and a `[ResolvedHit]` line from `onScheduledTargetHit` after damage
+has been resolved. Both lines include the tactical target's entity ID, name,
+and tile coordinates. Matching IDs confirms that the selected target received
+the hit; differing IDs proves the attack resolved against another target. A
+miss has a `[Selected]` line but no corresponding `[ResolvedHit]` line.
 
 ## Load Order
 
