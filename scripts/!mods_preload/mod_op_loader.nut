@@ -21,18 +21,14 @@
     // Create the Dynamic Menu Options Page
     local page = ::OpArchers.Mod.ModSettings.addPage("General");
 
-    // Debug log toggle option
-    local debugLogSetting = page.addBooleanSetting("EnableDebugLogs", true, "Enable Debug Logs");
+    local developer = ::OpArchers.Mod.ModSettings.addPage("Developer Options");
+    local debugLogSetting = developer.addBooleanSetting("EnableDebugLogs", true, "Enable Debug Logs");
     debugLogSetting.setDescription("Enable detailed OpArchers debug log output via MSU.");
-
-    // setting up this callback to ensure that the debug flag is set correctly on mod load and whenever the setting is changed
     debugLogSetting.addCallback(function(_data = null){
         ::OpArchers.Mod.Debug.setFlag("default", this.getValue());
     });
-    // set the debug flag on mod load based on the current setting value
     ::OpArchers.Mod.Debug.setFlag("default", debugLogSetting.getValue());
 
-    local developer = ::OpArchers.Mod.ModSettings.addPage("Developer Options");
     developer.addBooleanSetting(
         "EnableDeveloperOptions",
         false,

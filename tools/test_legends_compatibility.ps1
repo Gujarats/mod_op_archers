@@ -31,7 +31,7 @@ Assert-Contains "scripts/mods/op_archers/ranged_attack_hooks.nut" "this.m.IsRang
 Assert-Contains "scripts/!mods_preload/mod_op_loader.nut" '">mod_msu", ">mod_legends"'
 Assert-Contains "scripts/!mods_preload/mod_op_loader.nut" "EnableDeveloperOptions"
 Assert-Contains "scripts/!mods_preload/mod_op_loader.nut" "DeveloperGrantLegendsRangedTestKit"
-Assert-Contains "scripts/!mods_preload/mod_op_loader.nut" 'addBooleanSetting("EnableDebugLogs", true'
+Assert-Contains "scripts/!mods_preload/mod_op_loader.nut" 'developer.addBooleanSetting("EnableDebugLogs", true'
 Assert-Matches "scripts/!mods_preload/mod_op_loader.nut" '"EnableDeveloperOptions",\s*false'
 Assert-Matches "scripts/!mods_preload/mod_op_loader.nut" '"DeveloperGrantLegendsRangedTestKit",\s*false'
 Assert-Contains "scripts/mods/op_archers/developer_options.nut" "scripts/items/weapons/short_bow"
