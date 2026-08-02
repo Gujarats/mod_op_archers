@@ -1,6 +1,6 @@
 ::OpArchers <- {
     ID = "mod_op_archers",
-    Version = "0.0.3",
+    Version = "0.1.0",
     Name = "Overpowered Archers and Crossbows"
 };
 
@@ -100,7 +100,7 @@
     ::OpArchers.Mod.Debug.printLog("[OpArchers] Menu options fully initialized dynamically!");
 
     // Load the separate execution logic script
-    ::include("mod_op_archers/mod_op_archers");
+    ::include("scripts/mods/op_archers/ranged_attack_hooks");
     ::OpArchers.RangedAttackHooks.registerVanillaHooks(::OpArchers.HookMod);
 
     if (::Hooks.hasMod("mod_legends"))

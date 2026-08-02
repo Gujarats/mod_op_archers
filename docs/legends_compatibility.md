@@ -3,7 +3,7 @@
 ## Scope
 
 When `mod_legends` is installed, Overpowered Archers and Crossbows applies its
-configured guaranteed-hit, projectile-diversion, and damage-multiplier logic
+existing configured guaranteed-hit, projectile-diversion, and damage-multiplier logic
 to these player-controlled ranged attacks:
 
 | Weapon family | Active script | Purpose |
@@ -21,7 +21,8 @@ Legends' crossbow-configured `knock_out` is also excluded: it is the melee
 "Improvised Strike" butt attack, not a projectile attack.
 Legends owns Cascade's multi-shot behavior, Piercing Bolt's follow-through hit,
 and Strafing Run's movement. This mod only changes the attack properties used
-by those skills.
+by those skills. The compatibility patch does not change the existing OP
+Archers attack behavior.
 
 ## Load Order
 
