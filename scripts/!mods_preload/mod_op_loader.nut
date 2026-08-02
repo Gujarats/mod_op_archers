@@ -1,13 +1,16 @@
 ::OpArchers <- {
     ID = "mod_op_archers",
-    Version = "0.0.3",
+    Version = "0.1.0",
     Name = "Overpowered Archers and Crossbows"
 };
 
 ::OpArchers.HookMod <- ::Hooks.register(::OpArchers.ID, ::OpArchers.Version, ::OpArchers.Name);
 ::OpArchers.HookMod.require("mod_msu >= 1.9.0");
 
-::OpArchers.HookMod.queue(">mod_msu", function()
+::include("scripts/mods/op_archers/developer_options");
+::include("scripts/mods/op_archers/compatibility/legends_ranged_patch");
+
+::OpArchers.HookMod.queue(">mod_msu", ">mod_legends", function()
 {
     // Register the MSU Mod Object
     ::OpArchers.Mod <- ::MSU.Class.Mod(::OpArchers.ID, ::OpArchers.Version, ::OpArchers.Name);
@@ -18,16 +21,27 @@
     // Create the Dynamic Menu Options Page
     local page = ::OpArchers.Mod.ModSettings.addPage("General");
 
-    // Debug log toggle option
-    local debugLogSetting = page.addBooleanSetting("EnableDebugLogs", false, "Enable Debug Logs");
+    local developer = ::OpArchers.Mod.ModSettings.addPage("Developer Options");
+    local debugLogSetting = developer.addBooleanSetting("EnableDebugLogs", true, "Enable Debug Logs");
     debugLogSetting.setDescription("Enable detailed OpArchers debug log output via MSU.");
-
-    // setting up this callback to ensure that the debug flag is set correctly on mod load and whenever the setting is changed
     debugLogSetting.addCallback(function(_data = null){
         ::OpArchers.Mod.Debug.setFlag("default", this.getValue());
     });
-    // set the debug flag on mod load based on the current setting value
     ::OpArchers.Mod.Debug.setFlag("default", debugLogSetting.getValue());
+
+    developer.addBooleanSetting(
+        "EnableDeveloperOptions",
+        false,
+        "Enable Developer Options",
+        "Enables developer helpers for disposable test saves."
+    );
+    developer.addBooleanSetting(
+        "DeveloperGrantLegendsRangedTestKit",
+        false,
+        "Grant Legends Ranged Test Kit",
+        "Adds bow and crossbow test equipment to the stash once per game session when Legends is installed."
+    );
+    ::OpArchers.DeveloperOptions.init();
 
     ::OpArchers.Mod.Debug.printLog("[OpArchers] Hook queue successfully triggered after mod_msu!");
 
@@ -82,5 +96,24 @@
     ::OpArchers.Mod.Debug.printLog("[OpArchers] Menu options fully initialized dynamically!");
 
     // Load the separate execution logic script
-    ::include("mod_op_archers/mod_op_archers");
+    ::include("scripts/mods/op_archers/ranged_attack_hooks");
+
+    if (::Hooks.hasMod("mod_legends"))
+    {
+        ::OpArchers.Compatibility.Legends.registerHooks(::OpArchers.HookMod);
+    }
+    else
+    {
+        ::OpArchers.RangedAttackHooks.registerVanillaHooks(::OpArchers.HookMod);
+    }
+
+    ::OpArchers.HookMod.hook("scripts/ui/global/data_helper", function(q)
+    {
+        q.convertEntityToUIData = @(__original) function(_entity, _activeEntity)
+        {
+            local result = __original(_entity, _activeEntity);
+            ::OpArchers.DeveloperOptions.applyLegendsRangedTestKitOnce();
+            return result;
+        };
+    });
 });
