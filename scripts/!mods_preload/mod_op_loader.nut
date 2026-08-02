@@ -97,11 +97,14 @@
 
     // Load the separate execution logic script
     ::include("scripts/mods/op_archers/ranged_attack_hooks");
-    ::OpArchers.RangedAttackHooks.registerVanillaHooks(::OpArchers.HookMod);
 
     if (::Hooks.hasMod("mod_legends"))
     {
         ::OpArchers.Compatibility.Legends.registerHooks(::OpArchers.HookMod);
+    }
+    else
+    {
+        ::OpArchers.RangedAttackHooks.registerVanillaHooks(::OpArchers.HookMod);
     }
 
     ::OpArchers.HookMod.hook("scripts/ui/global/data_helper", function(q)

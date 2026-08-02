@@ -19,15 +19,33 @@ function Assert-Matches([string]$RelativePath, [string]$Pattern)
     }
 }
 
+function Assert-NotContains([string]$RelativePath, [string]$Token)
+{
+    $path = Join-Path $root $RelativePath
+    if ((Get-Content -Raw -LiteralPath $path).IndexOf($Token) -ge 0)
+    {
+        throw "Unexpected '$Token' in $RelativePath"
+    }
+}
+
 Assert-Contains "docs/legends_compatibility.md" "legend_cascade_skill"
 Assert-Contains "docs/legends_compatibility.md" "legend_piercing_bolt_skill"
 Assert-Contains "docs/legends_compatibility.md" "legend_strafing_run_skill"
+Assert-Contains "docs/legends_compatibility.md" "actives.legend_piercing_bolt"
+Assert-Contains "docs/legends_compatibility.md" "actives.legend_sprint"
 Assert-Contains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" "scripts/skills/actives/legend_cascade_skill"
+Assert-Contains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" "scripts/skills/skill"
+Assert-Contains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" "actives.legend_piercing_bolt"
+Assert-Contains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" "actives.legend_sprint"
+Assert-Contains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" 'logAttack("Attack"'
+Assert-NotContains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" "RangedAttackHooks"
 Assert-Contains "scripts/!mods_preload/mod_op_loader.nut" "scripts/mods/op_archers/developer_options"
 Assert-Contains "scripts/!mods_preload/mod_op_loader.nut" "scripts/mods/op_archers/compatibility/legends_ranged_patch"
 Assert-Contains "scripts/!mods_preload/mod_op_loader.nut" "scripts/mods/op_archers/ranged_attack_hooks"
 Assert-Contains "scripts/mods/op_archers/ranged_attack_hooks.nut" "registerVanillaHooks"
 Assert-Contains "scripts/mods/op_archers/ranged_attack_hooks.nut" "this.m.IsRanged = false"
+Assert-Matches "scripts/!mods_preload/mod_op_loader.nut" 'if \(::Hooks\.hasMod\("mod_legends"\)\)\s*\{\s*::OpArchers\.Compatibility\.Legends\.registerHooks'
+Assert-Matches "scripts/!mods_preload/mod_op_loader.nut" 'else\s*\{\s*::OpArchers\.RangedAttackHooks\.registerVanillaHooks'
 Assert-Contains "scripts/!mods_preload/mod_op_loader.nut" '">mod_msu", ">mod_legends"'
 Assert-Contains "scripts/!mods_preload/mod_op_loader.nut" "EnableDeveloperOptions"
 Assert-Contains "scripts/!mods_preload/mod_op_loader.nut" "DeveloperGrantLegendsRangedTestKit"
