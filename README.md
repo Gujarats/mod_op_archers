@@ -9,6 +9,10 @@ copy the .zip file you've downloaded to `Battle Brothers\data`
 
  - Smart Trajectory Bypass: Ranged shots will no longer go astray, get blocked by cover, or hit unintended targets. The mod temporarily tricks the tactical engine during the execution frame to process the attack instantly on your chosen target—completely ignoring physical blocking math while maintaining the visual projectile effect.
 
+# Ranged Skill thresholds
+ - Guaranteed-hit and damage-tier thresholds use the effective Ranged Skill shown in tactical UI, not the character's unmodified base value.
+ - Temporary modifiers therefore count. For example, a character with 65 base Ranged Skill who is Confident has 71 effective Ranged Skill and qualifies for a threshold of 70.
+
 # Requirements
 Modern Hooks (MSU)
 

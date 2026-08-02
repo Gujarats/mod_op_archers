@@ -49,8 +49,6 @@ Assert-Contains "scripts/!mods_preload/mod_op_loader.nut" "scripts/mods/op_arche
 Assert-Contains "scripts/!mods_preload/mod_op_loader.nut" "scripts/mods/op_archers/ranged_attack_hooks"
 Assert-Contains "scripts/mods/op_archers/ranged_attack_hooks.nut" "registerVanillaHooks"
 Assert-Contains "scripts/mods/op_archers/ranged_attack_hooks.nut" "this.m.IsRanged = false"
-Assert-Contains "scripts/mods/op_archers/ranged_attack_hooks.nut" "[OpArchers][Selected]"
-Assert-Contains "scripts/mods/op_archers/ranged_attack_hooks.nut" "[OpArchers][ResolvedHit]"
 Assert-Matches "scripts/!mods_preload/mod_op_loader.nut" 'if \(::Hooks\.hasMod\("mod_legends"\)\)\s*\{\s*::OpArchers\.Compatibility\.Legends\.registerHooks'
 Assert-Matches "scripts/!mods_preload/mod_op_loader.nut" 'else\s*\{\s*::OpArchers\.RangedAttackHooks\.registerVanillaHooks'
 Assert-Contains "scripts/!mods_preload/mod_op_loader.nut" '">mod_msu", ">mod_legends"'

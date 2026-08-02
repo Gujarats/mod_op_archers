@@ -56,7 +56,7 @@ if (!("Compatibility" in ::OpArchers))
     function meetsGuaranteedHitThreshold(_actor)
     {
         local threshold = ::OpArchers.Mod.ModSettings.getSetting("MinSkillForGuaranteeHit").getValue();
-        return _actor.getCurrentProperties().RangedSkill >= threshold;
+        return _actor.getCurrentProperties().getRangedSkill() >= threshold;
     }
 
     function logAttack(_event, _skill, _message)
@@ -83,7 +83,7 @@ if (!("Compatibility" in ::OpArchers))
             return;
         }
 
-        local rangedSkill = actor.getCurrentProperties().RangedSkill;
+        local rangedSkill = actor.getCurrentProperties().getRangedSkill();
         local settings = ::OpArchers.Mod.ModSettings;
         local tier1Min = settings.getSetting("Tier1SkillMin").getValue();
         local tier1Max = settings.getSetting("Tier1SkillMax").getValue();
@@ -139,7 +139,7 @@ if (!("Compatibility" in ::OpArchers))
                 if (policy != null && policy.IsAttack && actor != null)
                 {
                     local threshold = ::OpArchers.Mod.ModSettings.getSetting("MinSkillForGuaranteeHit").getValue();
-                    local rangedSkill = actor.getCurrentProperties().RangedSkill;
+                    local rangedSkill = actor.getCurrentProperties().getRangedSkill();
                     local qualifies = ::OpArchers.Compatibility.Legends.meetsGuaranteedHitThreshold(actor);
                     ::OpArchers.Compatibility.Legends.logAttack("Hit", this, "ranged skill " + rangedSkill + ", threshold " + threshold + ", qualifies " + qualifies);
 

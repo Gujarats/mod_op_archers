@@ -14,18 +14,7 @@
     function meetsGuaranteedHitThreshold(_actor)
     {
         local minSkill = ::OpArchers.Mod.ModSettings.getSetting("MinSkillForGuaranteeHit").getValue();
-        return _actor.getCurrentProperties().RangedSkill >= minSkill;
-    }
-
-    function describeTarget(_targetEntity)
-    {
-        if (_targetEntity == null)
-        {
-            return "target <none>";
-        }
-
-        local tile = _targetEntity.getTile();
-        return "target \"" + _targetEntity.getName() + "\" id " + _targetEntity.getID() + " tile " + tile.X + "," + tile.Y;
+        return _actor.getCurrentProperties().getRangedSkill() >= minSkill;
     }
 
     function applyDamageMultiplier(_skill, _targetEntity, _properties)
@@ -36,7 +25,7 @@
             return;
         }
 
-        local rangedSkill = actor.getCurrentProperties().RangedSkill;
+        local rangedSkill = actor.getCurrentProperties().getRangedSkill();
         local settings = ::OpArchers.Mod.ModSettings;
         local tier1Min = settings.getSetting("Tier1SkillMin").getValue();
         local tier1Max = settings.getSetting("Tier1SkillMax").getValue();
@@ -75,11 +64,6 @@
 
             q.attackEntity = @(__original) function(_user, _targetEntity, _allowDiversion = true)
             {
-                if (_user != null && _user.isPlayerControlled())
-                {
-                    ::OpArchers.Mod.Debug.printLog("[OpArchers][Selected] " + this.getID() + " " + ::OpArchers.RangedAttackHooks.describeTarget(_targetEntity));
-                }
-
                 if (_user != null
                     && _user.isPlayerControlled()
                     && _user.isAlive()
@@ -95,18 +79,6 @@
                 }
 
                 return __original(_user, _targetEntity, _allowDiversion);
-            };
-
-            q.onScheduledTargetHit = @(__original) function(_info)
-            {
-                local result = __original(_info);
-
-                if (_info != null && "TargetEntity" in _info && "User" in _info && _info.User != null && _info.User.isPlayerControlled())
-                {
-                    ::OpArchers.Mod.Debug.printLog("[OpArchers][ResolvedHit] " + this.getID() + " confirmed " + ::OpArchers.RangedAttackHooks.describeTarget(_info.TargetEntity));
-                }
-
-                return result;
             };
 
             q.onAnySkillUsed = @(__original) function(_skill, _targetEntity, _properties)
