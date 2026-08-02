@@ -1,3 +1,7 @@
 *.zip
 *.rar
 .bbbuilder
+.brush_build_manifest.json
+mod_config.json
+dist
+build
