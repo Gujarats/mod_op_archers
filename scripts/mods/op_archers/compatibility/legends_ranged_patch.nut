@@ -104,6 +104,18 @@ if (!("Compatibility" in ::OpArchers))
         }
     }
 
+    function applyGuaranteedHitProperties(_skill, _properties)
+    {
+        local actor = this.getEligibleActor(_skill);
+        if (actor == null || !this.meetsGuaranteedHitThreshold(actor))
+        {
+            return;
+        }
+
+        _properties.RangedAttackBlockedChanceMult = 0.0;
+        this.logAttack("Blockage", _skill, "set RangedAttackBlockedChanceMult to 0");
+    }
+
     function registerCombatHook(_mod, _skillPath)
     {
         _mod.hook(_skillPath, function(q)
@@ -158,30 +170,7 @@ if (!("Compatibility" in ::OpArchers))
 
                 ::OpArchers.Compatibility.Legends.logAttack("Attack", this, "qualifies " + qualifies + ", blockers " + blockerCount + ", allow diversion " + _allowDiversion);
 
-                if (!qualifies || !("IsRanged" in this.m))
-                {
-                    return __original(_user, _targetEntity, _allowDiversion);
-                }
-
-                local originalIsRanged = this.m.IsRanged;
-                this.m.IsRanged = false;
-                local result = __original(_user, _targetEntity, _allowDiversion);
-                this.m.IsRanged = originalIsRanged;
-                ::OpArchers.Compatibility.Legends.logAttack("Attack", this, "applied original OP Archers diversion behavior");
-                return result;
-            };
-
-            q.onScheduledTargetHit = @(__original) function(_info)
-            {
-                local result = __original(_info);
-                local policy = ::OpArchers.Compatibility.Legends.getPolicy(this);
-
-                if (policy != null && policy.IsAttack && _info != null && "TargetEntity" in _info)
-                {
-                    ::OpArchers.Compatibility.Legends.logAttack("ResolvedHit", this, "confirmed " + ::OpArchers.Compatibility.Legends.describeTarget(_info.TargetEntity));
-                }
-
-                return result;
+                return __original(_user, _targetEntity, _allowDiversion);
             };
 
             q.onAnySkillUsed = @(__original) function(_skill, _targetEntity, _properties)
@@ -191,6 +180,7 @@ if (!("Compatibility" in ::OpArchers))
                 local policy = ::OpArchers.Compatibility.Legends.getPolicy(this);
                 if (policy != null && policy.IsAttack && _skill == this)
                 {
+                    ::OpArchers.Compatibility.Legends.applyGuaranteedHitProperties(this, _properties);
                     ::OpArchers.Compatibility.Legends.applyDamageMultiplier(this, _properties);
                 }
             };

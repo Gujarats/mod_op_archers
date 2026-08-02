@@ -38,11 +38,11 @@ Assert-Contains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut"
 Assert-Contains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" "actives.legend_sprint"
 Assert-Contains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" 'logAttack("Attack"'
 Assert-Contains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" 'logAttack("Selected"'
-Assert-Contains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" 'logAttack("ResolvedHit"'
-Assert-Contains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" "onScheduledTargetHit"
 Assert-Contains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" "function registerCombatHook"
 Assert-Contains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" "q.attackEntity = @(__original)"
+Assert-Contains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" "RangedAttackBlockedChanceMult = 0.0"
 Assert-NotContains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" '_mod.hook("scripts/skills/skill"'
+Assert-NotContains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" "onScheduledTargetHit"
 Assert-NotContains "scripts/mods/op_archers/compatibility/legends_ranged_patch.nut" "RangedAttackHooks"
 Assert-Contains "scripts/!mods_preload/mod_op_loader.nut" "scripts/mods/op_archers/developer_options"
 Assert-Contains "scripts/!mods_preload/mod_op_loader.nut" "scripts/mods/op_archers/compatibility/legends_ranged_patch"
