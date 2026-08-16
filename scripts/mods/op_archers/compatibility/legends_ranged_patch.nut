@@ -61,7 +61,7 @@ if (!("Compatibility" in ::OpArchers))
 
     function logAttack(_event, _skill, _message)
     {
-        ::OpArchers.Mod.Debug.printLog("[OpArchers][Legends][" + _event + "] " + _skill.getID() + " " + _message);
+        ::OpArchers.debugLog("[Legends][" + _event + "] " + _skill.getID() + " " + _message);
     }
 
     function describeTarget(_targetEntity)
@@ -192,9 +192,9 @@ if (!("Compatibility" in ::OpArchers))
         foreach (id, policy in this.SupportedSkills)
         {
             this.registerCombatHook(_mod, policy.Script);
-            ::OpArchers.Mod.Debug.printLog("[OpArchers][Legends][Register] " + id + " -> " + policy.Script);
+            ::OpArchers.debugLog("[Legends][Register] " + id + " -> " + policy.Script);
         }
 
-        ::OpArchers.Mod.Debug.printLog("[OpArchers][Legends][Register] explicit active-skill adapters registered");
+        ::OpArchers.debugLog("[Legends][Register] Explicit active-skill adapters registered");
     }
 };

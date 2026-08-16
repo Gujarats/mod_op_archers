@@ -1,7 +1,12 @@
 ::OpArchers <- {
     ID = "mod_op_archers",
-    Version = "0.1.0",
+    Version = "0.1.1",
     Name = "Overpowered Archers and Crossbows"
+};
+
+::OpArchers.debugLog <- function(_message)
+{
+    ::OpArchers.Mod.Debug.printLog("[OpArchers] " + _message);
 };
 
 ::OpArchers.HookMod <- ::Hooks.register(::OpArchers.ID, ::OpArchers.Version, ::OpArchers.Name);
@@ -42,8 +47,6 @@
         "Adds bow and crossbow test equipment to the stash once per game session when Legends is installed."
     );
     ::OpArchers.DeveloperOptions.init();
-
-    ::OpArchers.Mod.Debug.printLog("[OpArchers] Hook queue successfully triggered after mod_msu!");
 
     // 1b. Dynamic Guarantee Hit Chance Threshold
     page.addRangeSetting(
@@ -92,8 +95,6 @@
         "Tier 2 Damage Bonus (%)",
         "Damage multiplier percentage bonus for Tier 2 skill bracket (e.g., 130 = 1.30x)."
     );
-
-    ::OpArchers.Mod.Debug.printLog("[OpArchers] Menu options fully initialized dynamically!");
 
     // Load the separate execution logic script
     ::include("scripts/mods/op_archers/ranged_attack_hooks");
