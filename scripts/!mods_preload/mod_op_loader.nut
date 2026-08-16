@@ -10,7 +10,7 @@
 ::include("scripts/mods/op_archers/developer_options");
 ::include("scripts/mods/op_archers/compatibility/legends_ranged_patch");
 
-::OpArchers.HookMod.queue(">mod_msu", ">mod_legends", function()
+::OpArchers.HookMod.queue(">mod_msu", ">mod_legends", ">mod_reforged", function()
 {
     // Register the MSU Mod Object
     ::OpArchers.Mod <- ::MSU.Class.Mod(::OpArchers.ID, ::OpArchers.Version, ::OpArchers.Name);
