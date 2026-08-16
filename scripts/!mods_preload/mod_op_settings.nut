@@ -1,4 +1,4 @@
-if(!"OpArchers" in getroottable())
+if(!("OpArchers" in getroottable()))
 {
 	::OpArchers <- {};
 }
