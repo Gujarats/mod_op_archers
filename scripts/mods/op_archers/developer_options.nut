@@ -47,6 +47,6 @@ if (!("DeveloperOptions" in ::OpArchers))
         stash.add(::new("scripts/items/ammo/large_quiver_of_arrows"));
         stash.add(::new("scripts/items/ammo/large_quiver_of_bolts"));
 
-        ::OpArchers.Mod.Debug.printLog("[OpArchers][Developer] granted Legends ranged test kit");
+        ::OpArchers.debugLog("[Developer] Granted Legends ranged test kit");
     }
 };

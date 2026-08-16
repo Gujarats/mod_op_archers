@@ -37,12 +37,12 @@
         if (rangedSkill >= tier1Min && rangedSkill <= tier1Max)
         {
             _properties.RangedDamageMult *= tier1Mult;
-            ::OpArchers.Mod.Debug.printLog("[OpArchers] applied Tier 1 damage multiplier to " + _skill.getID());
+            ::OpArchers.debugLog("Applied Tier 1 damage multiplier to " + _skill.getID());
         }
         else if (rangedSkill >= tier2Min && rangedSkill <= tier2Max)
         {
             _properties.RangedDamageMult *= tier2Mult;
-            ::OpArchers.Mod.Debug.printLog("[OpArchers] applied Tier 2 damage multiplier to " + _skill.getID());
+            ::OpArchers.debugLog("Applied Tier 2 damage multiplier to " + _skill.getID());
         }
     }
 
@@ -55,7 +55,7 @@
                 local actor = ::OpArchers.RangedAttackHooks.getEligibleActor(this);
                 if (actor != null && ::OpArchers.RangedAttackHooks.meetsGuaranteedHitThreshold(actor))
                 {
-                    ::OpArchers.Mod.Debug.printLog("[OpArchers] guaranteed hit enabled for " + this.getID());
+                    ::OpArchers.debugLog("Guaranteed hit enabled for " + this.getID());
                     return false;
                 }
 
@@ -74,7 +74,7 @@
                     this.m.IsRanged = false;
                     local result = __original(_user, _targetEntity, _allowDiversion);
                     this.m.IsRanged = originalIsRanged;
-                    ::OpArchers.Mod.Debug.printLog("[OpArchers] projectile diversion disabled for " + this.getID());
+                    ::OpArchers.debugLog("Projectile diversion disabled for " + this.getID());
                     return result;
                 }
 
@@ -107,6 +107,6 @@
             this.registerSkillHook(_mod, skillPath);
         }
 
-        ::OpArchers.Mod.Debug.printLog("[OpArchers] vanilla ranged hooks registered");
+        ::OpArchers.debugLog("Vanilla ranged hooks registered");
     }
 };
