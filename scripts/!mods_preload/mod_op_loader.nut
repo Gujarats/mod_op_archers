@@ -55,13 +55,4 @@
     {
         ::OpArchers.RangedAttackHooks.registerVanillaHooks(::OpArchers.HookMod);
     }
-
-    ::OpArchers.HookMod.hook("scripts/ui/global/data_helper", function(q)
-    {
-        q.convertEntityToUIData = @(__original) function(_entity, _activeEntity)
-        {
-            local result = __original(_entity, _activeEntity);
-            return result;
-        };
-    });
 });
