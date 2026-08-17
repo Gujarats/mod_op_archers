@@ -46,15 +46,14 @@
     {
         ::OpArchers.Compatibility.Legends.registerHooks(::OpArchers.HookMod);
     }
+     // Reforged uses modular vanilla
+    else if (::Hooks.hasMod("mod_modular_vanilla"))
+    {
+        ::OpArchers.Compatibility.ModularVanilla.registerHooks(::OpArchers.HookMod);
+    }
     else
     {
         ::OpArchers.RangedAttackHooks.registerVanillaHooks(::OpArchers.HookMod);
-    }
-
-    // Reforged uses modular vanilla
-    if (::Hooks.hasMod("mod_modular_vanilla"))
-    {
-        ::OpArchers.Compatibility.ModularVanilla.registerHooks(::OpArchers.HookMod);
     }
 
     ::OpArchers.HookMod.hook("scripts/ui/global/data_helper", function(q)
