@@ -51,6 +51,7 @@
         ::OpArchers.RangedAttackHooks.registerVanillaHooks(::OpArchers.HookMod);
     }
 
+    // Reforged uses modular vanilla
     if (::Hooks.hasMod("mod_modular_vanilla"))
     {
         ::OpArchers.Compatibility.ModularVanilla.registerHooks(::OpArchers.HookMod);

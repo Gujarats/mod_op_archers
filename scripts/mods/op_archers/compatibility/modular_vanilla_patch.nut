@@ -3,14 +3,13 @@ if (!("Compatibility" in ::OpArchers))
     ::OpArchers.Compatibility <- {};
 }
 
+// For Reforged Compatibility
 ::OpArchers.Compatibility.ModularVanilla <- {
     SupportedSkillIDs = {
         ["actives.aimed_shot"] = true,
         ["actives.quick_shot"] = true,
         ["actives.shoot_bolt"] = true,
-        ["actives.shoot_stake"] = true,
-        ["actives.legend_cascade"] = true,
-        ["actives.legend_piercing_bolt"] = true
+        ["actives.shoot_stake"] = true
     },
 
     function shouldPreserveTarget( _skill, _user )
