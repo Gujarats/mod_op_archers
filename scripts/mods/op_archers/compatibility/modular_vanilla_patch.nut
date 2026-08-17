@@ -12,6 +12,8 @@ if (!("Compatibility" in ::OpArchers))
         ["actives.shoot_stake"] = true
     },
 
+    // Making sure if the target is correct by checking the target itselft and the activated skill
+    // return false if not correct target, and check if the actor/users attribute meets the guaranteed hit threshold
     function shouldPreserveTarget( _skill, _user )
     {
         if (_user == null
