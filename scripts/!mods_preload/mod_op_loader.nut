@@ -1,6 +1,6 @@
 ::OpArchers <- {
     ID = "mod_op_archers",
-    Version = "0.1.1",
+    Version = "0.1.2",
     Name = "Overpowered Archers and Crossbows"
 };
 
