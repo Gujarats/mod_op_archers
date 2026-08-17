@@ -28,7 +28,7 @@ if (!("Hooks" in ::OpArchers))
                 local actor = ::OpArchers.RangedAttackLogic.getEligibleActor(this);
                 if (actor != null && ::OpArchers.RangedAttackLogic.meetsGuaranteedHitThreshold(actor))
                 {
-                    ::OpArchers.debugLog("Guaranteed hit enabled for " + this.getID());
+                    ::OpArchers.debugLog("[ModularVanilla] Guaranteed hit enabled for " + this.getID());
                     return false;
                 }
 
@@ -44,7 +44,7 @@ if (!("Hooks" in ::OpArchers))
                     local tier = ::OpArchers.RangedAttackLogic.getDamageMultiplierTier(this, _properties);
                     if (tier > 0)
                     {
-                        ::OpArchers.debugLog("Applied Tier " + tier + " damage multiplier to " + this.getID());
+                        ::OpArchers.debugLog("[ModularVanilla] Applied Tier " + tier + " damage multiplier to " + this.getID());
                     }
                 }
             };
