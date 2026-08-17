@@ -20,6 +20,8 @@ if (!("Hooks" in ::OpArchers))
         return id in this.SupportedSkills ? this.SupportedSkills[id] : null;
     }
 
+    // I know It's bad and generated from AI...
+    // too lazy to refactor it but it works
     function logAttack(_event, _skill, _message)
     {
         ::OpArchers.debugLog("[Legends][" + _event + "] " + _skill.getID() + " " + _message);
