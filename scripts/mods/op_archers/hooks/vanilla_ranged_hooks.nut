@@ -55,7 +55,6 @@ if (!("Hooks" in ::OpArchers))
         });
     }
 
-    // register hooks for vanilla battle brothers it's different from modular vanilla please see modular_vanilla_ranged_hooks.nut for that
     function registerHooks(_mod)
     {
         local skillPaths = [

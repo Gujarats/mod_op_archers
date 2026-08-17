@@ -4,32 +4,24 @@ if (!("Hooks" in ::OpArchers))
 }
 
 ::OpArchers.Hooks.ModularVanilla <- {
-    SupportedSkillIDs = {
-        ["actives.aimed_shot"] = true,
-        ["actives.quick_shot"] = true,
-        ["actives.shoot_bolt"] = true,
-        ["actives.shoot_stake"] = true
-    },
-
     // Preserve the selected target only for an eligible player using a supported ranged skill.
     // this will make the arrow hit the target without diversion
-    function shouldPreserveTarget(_skill, _user)
+    function isValidTarget(_skill, _user)
     {
         if (_user == null
             || !_user.isPlayerControlled()
             || !_user.isAlive()
-            || !(_skill.getID() in this.SupportedSkillIDs)
             || !_skill.isRanged())
         {
             return false;
         }
 
-        return ::OpArchers.RangedAttackLogic.meetsGuaranteedHitThreshold(_user);
+        return true;
     }
 
-    function registerHooks(_mod)
+    function registerSkillHook(_mod, _skillPath)
     {
-        _mod.hook("scripts/skills/skill", function(q)
+        _mod.hook(_skillPath, function(q)
         {
             q.isUsingHitchance = @(__original) function()
             {
@@ -59,7 +51,7 @@ if (!("Hooks" in ::OpArchers))
 
             q.MV_getDiversionTarget = @(__original) function(_user, _targetEntity, _propertiesForUse = null)
             {
-                if (::OpArchers.Hooks.ModularVanilla.shouldPreserveTarget(this, _user))
+                if (::OpArchers.Hooks.ModularVanilla.isValidTarget(this, _user))
                 {
                     ::OpArchers.debugLog("[ModularVanilla] diversion disabled for " + this.getID());
                     return null;
@@ -70,5 +62,22 @@ if (!("Hooks" in ::OpArchers))
         });
 
         ::OpArchers.debugLog("[ModularVanilla] diversion compatibility hook registered");
+    }
+
+    function registerHooks(_mod)
+    {
+        local skillPaths = [
+            "scripts/skills/actives/aimed_shot",
+            "scripts/skills/actives/quick_shot",
+            "scripts/skills/actives/shoot_bolt",
+            "scripts/skills/actives/shoot_stake"
+        ];
+
+        foreach (skillPath in skillPaths)
+        {
+            this.registerSkillHook(_mod, skillPath);
+        }
+
+        ::OpArchers.debugLog("Modular Vanilla ranged hooks registered");
     }
 };
