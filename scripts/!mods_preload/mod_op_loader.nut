@@ -24,8 +24,10 @@
     ::OpArchers.Mod.Debug.setFlag("default", ::OpArchers.Mod.ModSettings.getSetting("DebugLogging").getValue());
 };
 
-::include("scripts/mods/op_archers/compatibility/legends_ranged_patch");
-::include("scripts/mods/op_archers/compatibility/modular_vanilla_patch");
+::include("scripts/mods/op_archers/ranged_attack_logic");
+::include("scripts/mods/op_archers/hooks/vanilla_ranged_hooks");
+::include("scripts/mods/op_archers/hooks/legends_ranged_hooks");
+::include("scripts/mods/op_archers/hooks/modular_vanilla_ranged_hooks");
 
 ::OpArchers.HookMod.queue(">mod_msu", ">mod_legends", ">mod_reforged", ">mod_modular_vanilla", function()
 {
@@ -39,20 +41,17 @@
     ::OpArchers.registerSettings();
     ::OpArchers.configureDebugLogging();
 
-    // Load the separate execution logic script
-    ::include("scripts/mods/op_archers/ranged_attack_hooks");
-
     if (::Hooks.hasMod("mod_legends"))
     {
-        ::OpArchers.Compatibility.Legends.registerHooks(::OpArchers.HookMod);
+        ::OpArchers.Hooks.Legends.registerHooks(::OpArchers.HookMod);
     }
      // Reforged uses modular vanilla
     else if (::Hooks.hasMod("mod_modular_vanilla"))
     {
-        ::OpArchers.Compatibility.ModularVanilla.registerHooks(::OpArchers.HookMod);
+        ::OpArchers.Hooks.ModularVanilla.registerHooks(::OpArchers.HookMod);
     }
     else
     {
-        ::OpArchers.RangedAttackHooks.registerVanillaHooks(::OpArchers.HookMod);
+        ::OpArchers.Hooks.Vanilla.registerHooks(::OpArchers.HookMod);
     }
 });
