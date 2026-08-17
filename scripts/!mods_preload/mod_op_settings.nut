@@ -6,27 +6,11 @@ if(!("OpArchers" in getroottable()))
 ::OpArchers.registerSettings <- function()
 {
 	local page = ::OpArchers.Mod.ModSettings.addPage("General");
-    local developer = ::OpArchers.Mod.ModSettings.addPage("Developer Options");
-    local debugLogSetting = developer.addBooleanSetting("EnableDebugLogs", true, "Enable Debug Logs");
+    local debugLogSetting = page.addBooleanSetting("DebugLogging", true, "Debug Logging");
     debugLogSetting.setDescription("Enable detailed OpArchers debug log output via MSU.");
-    debugLogSetting.addCallback(function(_data = null){
-        ::OpArchers.Mod.Debug.setFlag("default", this.getValue());
+    debugLogSetting.addCallback(function( _ ){
+        ::OpArchers.configureDebugLogging();
     });
-    ::OpArchers.Mod.Debug.setFlag("default", debugLogSetting.getValue());
-
-    developer.addBooleanSetting(
-        "EnableDeveloperOptions",
-        false,
-        "Enable Developer Options",
-        "Enables developer helpers for disposable test saves."
-    );
-    developer.addBooleanSetting(
-        "DeveloperGrantLegendsRangedTestKit",
-        false,
-        "Grant Legends Ranged Test Kit",
-        "Adds bow and crossbow test equipment to the stash once per game session when Legends is installed."
-    );
-    ::OpArchers.DeveloperOptions.init();
 
     // 1b. Dynamic Guarantee Hit Chance Threshold
     page.addRangeSetting(

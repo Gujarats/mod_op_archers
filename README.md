@@ -25,3 +25,6 @@ Modern Hooks (MSU)
  - enduriel
  - reforged
  - AI Gemini
+# Debug Logging
+
+`Debug Logging` on the General page controls OP Archers output when Global Developer Test is absent. Global Developer Test overrides this value while installed. Developer test grants are available only through Global Developer Test.

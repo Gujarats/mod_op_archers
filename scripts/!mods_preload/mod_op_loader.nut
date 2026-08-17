@@ -12,10 +12,22 @@
 ::OpArchers.HookMod <- ::Hooks.register(::OpArchers.ID, ::OpArchers.Version, ::OpArchers.Name);
 ::OpArchers.HookMod.require("mod_msu >= 1.9.0");
 
-::include("scripts/mods/op_archers/developer_options");
-::include("scripts/mods/op_archers/compatibility/legends_ranged_patch");
+::OpArchers.configureDebugLogging <- function()
+{
+    if ("GuzBluezDebugLogController" in getroottable()
+        && "registerTarget" in ::GuzBluezDebugLogController)
+    {
+        ::GuzBluezDebugLogController.registerTarget(::OpArchers.ID, ::OpArchers.Mod);
+        return;
+    }
 
-::OpArchers.HookMod.queue(">mod_msu", ">mod_legends", ">mod_reforged", function()
+    ::OpArchers.Mod.Debug.setFlag("default", ::OpArchers.Mod.ModSettings.getSetting("DebugLogging").getValue());
+};
+
+::include("scripts/mods/op_archers/compatibility/legends_ranged_patch");
+::include("scripts/mods/op_archers/compatibility/modular_vanilla_patch");
+
+::OpArchers.HookMod.queue(">mod_msu", ">mod_legends", ">mod_reforged", ">mod_modular_vanilla", function()
 {
     // Register the MSU Mod Object
     ::OpArchers.Mod <- ::MSU.Class.Mod(::OpArchers.ID, ::OpArchers.Version, ::OpArchers.Name);
@@ -25,6 +37,7 @@
 
     // Create the Dynamic Menu Options Page
     ::OpArchers.registerSettings();
+    ::OpArchers.configureDebugLogging();
 
     // Load the separate execution logic script
     ::include("scripts/mods/op_archers/ranged_attack_hooks");
@@ -38,12 +51,16 @@
         ::OpArchers.RangedAttackHooks.registerVanillaHooks(::OpArchers.HookMod);
     }
 
+    if (::Hooks.hasMod("mod_modular_vanilla"))
+    {
+        ::OpArchers.Compatibility.ModularVanilla.registerHooks(::OpArchers.HookMod);
+    }
+
     ::OpArchers.HookMod.hook("scripts/ui/global/data_helper", function(q)
     {
         q.convertEntityToUIData = @(__original) function(_entity, _activeEntity)
         {
             local result = __original(_entity, _activeEntity);
-            ::OpArchers.DeveloperOptions.applyLegendsRangedTestKitOnce();
             return result;
         };
     });

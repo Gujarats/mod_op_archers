@@ -8,3 +8,4 @@ build
 *.json
 docs/
 tools/
+tests/
